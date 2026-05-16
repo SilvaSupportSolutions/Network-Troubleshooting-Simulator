@@ -65,19 +65,19 @@ These commands are simulated and were added for learning and demonstration purpo
 ## Screenshots
 
 ### Home Dashboard
-![Home](screenshots/1-home.png)
+![Home Dashboard](screenshots/1-home.png)
 
 ### New Incident Loaded
-![Incident Loaded](screenshots/2-new-incident-loaded.png)
+![New Incident Loaded](screenshots/2-new%20incident%20loaded.png)
 
 ### Diagnostic Running
-![Diagnostic Running](screenshots/3-diagnostic-running.png)
+![Diagnostic Running](screenshots/3-diagnostic%20running.png)
 
 ### Incident Escalated
-![Escalated](screenshots/4-incident-escalated.png)
+![Incident Escalated](screenshots/4-incident%20escalated.png)
 
 ### Resolved Incident
-![Resolved](screenshots/5-resolved-incident.png)
+![Resolved Incident](screenshots/5-resolved%20incident.png)
 
 
 ## How to Run
