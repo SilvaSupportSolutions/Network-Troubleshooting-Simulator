@@ -23,6 +23,7 @@ const issues = [
         },
         solution: "Release and renew the IP address using ipconfig /release and ipconfig /renew. After that, verify if DHCP is correctly configured on the router."
     },
+
     {
         id: 2,
         title: "DNS Failure",
@@ -36,6 +37,7 @@ const issues = [
         },
         solution: "Run ipconfig /flushdns and change the DNS servers to 8.8.8.8 and 8.8.4.4."
     },
+
     {
         id: 3,
         title: "Slow Internet / High Latency",
@@ -48,6 +50,7 @@ const issues = [
         },
         solution: "Check the Wi-Fi channel, restart the router, and test the connection again using an Ethernet cable."
     },
+
     {
         id: 4,
         title: "Gateway Unreachable",
@@ -59,6 +62,7 @@ const issues = [
         },
         solution: "Restart the router and check the network cables."
     },
+
     {
         id: 5,
         title: "Printer Offline",
@@ -148,31 +152,67 @@ function executeCommand() {
     }
 
     if (command.includes("ipconfig")) {
-        addLog(currentIssue.commands.ipconfig || "IP configuration is normal.", "text-sky-300");
+
+        addLog(
+            currentIssue.commands.ipconfig || "IP configuration is normal.",
+            "text-sky-300"
+        );
 
     } else if (command.includes("ping")) {
-        addLog(currentIssue.commands.ping || "Ping test completed successfully.", "text-sky-300");
+
+        addLog(
+            currentIssue.commands.ping || "Ping test completed successfully.",
+            "text-sky-300"
+        );
 
     } else if (command.includes("tracert")) {
-        addLog(currentIssue.commands.tracert || "Trace route completed successfully.", "text-sky-300");
+
+        addLog(
+            currentIssue.commands.tracert || "Trace route completed successfully.",
+            "text-sky-300"
+        );
 
     } else if (command.includes("nslookup")) {
-        addLog(currentIssue.commands.nslookup || "DNS lookup completed successfully.", "text-sky-300");
+
+        addLog(
+            currentIssue.commands.nslookup || "DNS lookup completed successfully.",
+            "text-sky-300"
+        );
 
     } else if (command.includes("flushdns")) {
-        addLog("DNS cache cleared successfully.", "text-emerald-400");
+
+        addLog(
+            "DNS cache cleared successfully.",
+            "text-emerald-400"
+        );
 
     } else if (command.includes("netstat")) {
-        addLog("TCP 192.168.1.45:443 ESTABLISHED\nTCP 192.168.1.45:80 TIME_WAIT", "text-sky-300");
+
+        addLog(
+            "TCP 192.168.1.45:443 ESTABLISHED\nTCP 192.168.1.45:80 TIME_WAIT",
+            "text-sky-300"
+        );
 
     } else if (command.includes("arp")) {
-        addLog("192.168.1.1 dynamic\n192.168.1.50 dynamic", "text-sky-300");
+
+        addLog(
+            "192.168.1.1 dynamic\n192.168.1.50 dynamic",
+            "text-sky-300"
+        );
 
     } else if (command.includes("route print")) {
-        addLog("Default Gateway: 192.168.1.1", "text-sky-300");
+
+        addLog(
+            "Default Gateway: 192.168.1.1",
+            "text-sky-300"
+        );
 
     } else {
-        addLog("Command not recognized.", "text-slate-400");
+
+        addLog(
+            "Command not recognized.",
+            "text-slate-400"
+        );
     }
 
     input.value = "";
@@ -188,33 +228,60 @@ function executeQuickCommand(command) {
 }
 
 function runDiagnostic() {
+
     if (!currentIssue) {
         alert("Please select an issue first.");
         return;
     }
 
     clearTerminal();
-    addLog("=== STARTING DIAGNOSTIC ===", "text-yellow-400");
+
+    addLog(
+        "=== STARTING DIAGNOSTIC ===",
+        "text-yellow-400"
+    );
 
     setTimeout(function () {
-        addLog("Checking network adapters...", "text-slate-400");
+
+        addLog(
+            "Checking network adapters...",
+            "text-slate-400"
+        );
+
     }, 600);
 
     setTimeout(function () {
-        addLog(currentIssue.commands.ipconfig || "IP configuration is normal.", "text-emerald-300");
+
+        addLog(
+            currentIssue.commands.ipconfig || "IP configuration is normal.",
+            "text-emerald-300"
+        );
+
     }, 1400);
 
     setTimeout(function () {
-        addLog("Testing connectivity...", "text-slate-400");
+
+        addLog(
+            "Testing connectivity...",
+            "text-slate-400"
+        );
+
     }, 2100);
 
     setTimeout(function () {
-        addLog(currentIssue.commands.ping || "Ping test completed successfully.", "text-emerald-300");
+
+        addLog(
+            currentIssue.commands.ping || "Ping test completed successfully.",
+            "text-emerald-300"
+        );
+
         showSolution();
+
     }, 2900);
 }
 
 function showSolution() {
+
     const solutionText = document.getElementById("solucao-texto");
     const solutionPanel = document.getElementById("solucao-panel");
 
@@ -228,6 +295,7 @@ function showSolution() {
 }
 
 function closeSolution() {
+
     const solutionPanel = document.getElementById("solucao-panel");
 
     if (solutionPanel) {
@@ -236,6 +304,7 @@ function closeSolution() {
 }
 
 function markAsResolved() {
+
     if (!currentIssue) return;
 
     currentStatus = "Resolved";
@@ -248,15 +317,21 @@ function markAsResolved() {
 
     resolvedCount++;
     updateDashboard();
+
     addToHistory("Resolved");
 
-    addLog("Issue resolved successfully: " + currentTicketId, "text-emerald-400");
+    addLog(
+        "Issue resolved successfully: " + currentTicketId,
+        "text-emerald-400"
+    );
 
     alert("Incident resolved successfully.");
+
     closeSolution();
 }
 
 function escalateIncident() {
+
     if (!currentIssue) return;
 
     currentStatus = "Escalated";
@@ -268,7 +343,9 @@ function escalateIncident() {
     }
 
     escalatedCount++;
+
     updateDashboard();
+
     addToHistory("Escalated");
 
     addLog(
@@ -278,10 +355,13 @@ function escalateIncident() {
 }
 
 function loadNewIssue() {
+
     const random = Math.floor(Math.random() * issues.length);
 
     currentIssue = issues[random];
+
     currentTicketId = generateTicketId();
+
     currentStatus = "Open";
 
     const titleElement = document.getElementById("problema-titulo");
@@ -311,15 +391,23 @@ function loadNewIssue() {
     }
 
     closeSolution();
+
     clearTerminal();
 
-    addLog("New issue loaded. Start troubleshooting.", "text-yellow-300");
+    addLog(
+        "New issue loaded. Start troubleshooting.",
+        "text-yellow-300"
+    );
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
     updateDashboard();
 
     setTimeout(function () {
+
         loadNewIssue();
+
     }, 850);
+
 });
