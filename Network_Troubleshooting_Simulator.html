@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Troubleshooting Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Network Troubleshooting Simulator.css">
+</head>
+<body>
+    <div class="max-w-6xl mx-auto p-6">
+
+        <header class="flex flex-col lg:flex-row justify-between gap-6 lg:items-center mb-8 border-b border-yellow-500 pb-4">
+            <div>
+                <h1 class="text-4xl font-bold text-yellow-400 flex items-center gap-3">
+                    <i class="fas fa-network-wired"></i>
+                    Network Troubleshooting Simulator
+                </h1>
+                <p class="text-slate-400 text-sm mt-2">
+                    N1/N2 support practice tool for common network incidents.
+                </p>
+            </div>
+
+            <div class="text-left lg:text-right">
+                <p class="text-xs text-slate-500">Technician: Christian Silva</p>
+                <button onclick="loadNewIssue()" class="mt-2 bg-red-600 hover:bg-red-700 px-5 py-2 rounded text-sm font-medium transition">
+                    <i class="fas fa-redo"></i> New Incident
+                </button>
+            </div>
+        </header>
+
+        <section class="dashboard grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-4">
+                <p class="text-slate-400 text-sm">Resolved Incidents</p>
+                <p id="resolved-count" class="text-3xl font-bold text-emerald-400">0</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-4">
+                <p class="text-slate-400 text-sm">Escalated Incidents</p>
+                <p id="escalated-count" class="text-3xl font-bold text-orange-400">0</p>
+            </div>
+        </section>
+
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <section class="lg:col-span-5">
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 problem-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div id="status-dot" class="w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
+                        <h2 class="text-2xl font-semibold text-white" id="problema-titulo">Incident Detected</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5 text-sm">
+                        <div class="bg-slate-800 rounded-lg p-3">
+                            <p class="text-slate-500">Ticket ID</p>
+                            <p id="ticket-id" class="text-yellow-300 font-medium">---</p>
+                        </div>
+
+                        <div class="bg-slate-800 rounded-lg p-3">
+                            <p class="text-slate-500">Severity</p>
+                            <p id="severity" class="text-orange-300 font-medium">---</p>
+                        </div>
+
+                        <div class="bg-slate-800 rounded-lg p-3">
+                            <p class="text-slate-500">Status</p>
+                            <p id="status" class="text-emerald-300 font-medium">---</p>
+                        </div>
+                    </div>
+
+                    <div id="descricao-problema" class="text-slate-300 leading-relaxed min-h-[120px]">
+                        Click "New Incident" to start.
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-slate-700">
+                        <button onclick="runDiagnostic()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-xl font-medium text-lg flex items-center justify-center gap-3 transition">
+                            <i class="fas fa-stethoscope"></i> Run Automatic Diagnostic
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-slate-900 border border-slate-700 rounded-xl p-5">
+                    <h3 class="text-lg font-medium mb-4 text-yellow-400">Quick Commands</h3>
+
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <button onclick="executeQuickCommand('ipconfig')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">ipconfig /all</button>
+                        <button onclick="executeQuickCommand('ping')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">ping 8.8.8.8</button>
+                        <button onclick="executeQuickCommand('tracert')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">tracert google.com</button>
+                        <button onclick="executeQuickCommand('nslookup')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">nslookup</button>
+                        <button onclick="executeQuickCommand('netstat')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">netstat</button>
+                        <button onclick="executeQuickCommand('route print')" class="bg-slate-800 hover:bg-slate-700 p-3 rounded-lg text-left transition">route print</button>
+                    </div>
+                </div>
+
+                <div class="incident-history mt-6 bg-slate-900 border border-slate-700 rounded-xl p-5">
+                    <h3 class="text-lg font-medium mb-4 text-yellow-400">Incident History</h3>
+                    <ul id="history-list" class="space-y-2 text-sm text-slate-300"></ul>
+                </div>
+            </section>
+
+            <section class="lg:col-span-7">
+                <div class="terminal rounded-2xl p-5 h-[460px] flex flex-col">
+                    <div class="flex items-center justify-between border-b border-[#22c55e] pb-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        </div>
+
+                        <div class="text-emerald-400 text-sm">
+                            C:\Users\Christian&gt; Network Diagnostic Tool
+                        </div>
+                    </div>
+
+                    <div id="terminal-output" class="flex-1 overflow-y-auto text-emerald-300 text-lg leading-tight space-y-1 pr-4 custom-scroll"></div>
+
+                    <div class="flex items-center mt-4 border-t border-emerald-900 pt-4">
+                        <span class="text-emerald-400 mr-2">C:\&gt;</span>
+                        <input id="cmd-input" type="text" class="flex-1 bg-transparent outline-none text-emerald-300 text-lg" placeholder="Type a command here...">
+                        <button onclick="executeCommand()" class="ml-3 bg-emerald-600 hover:bg-emerald-500 px-6 py-1 rounded text-sm">ENTER</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section id="solucao-panel" class="hidden mt-8 bg-gradient-to-r from-emerald-900 to-slate-900 border border-emerald-500 rounded-2xl p-7">
+            <div class="flex items-start gap-4">
+                <i class="fas fa-check-circle text-5xl text-emerald-400 mt-1"></i>
+
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-emerald-300 mb-3">Recommended Resolution</h3>
+                    <div id="solucao-texto" class="text-slate-200 leading-relaxed text-lg"></div>
+
+                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <button onclick="markAsResolved()" class="bg-white text-slate-900 py-4 rounded-xl font-semibold hover:bg-yellow-300 transition">
+                            Resolve Incident
+                        </button>
+
+                        <button onclick="escalateIncident()" class="border border-orange-400 text-orange-300 py-4 rounded-xl hover:bg-orange-950 transition">
+                            Escalate Incident
+                        </button>
+
+                        <button onclick="closeSolution()" class="border border-slate-400 py-4 rounded-xl hover:bg-slate-800 transition">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="text-center text-xs text-slate-600 mt-12 pb-6">
+        <p>Project developed by Christian Silva - Uninter - 2026</p>
+        <p class="mt-1">Network troubleshooting simulator for N1/N2 support practice.</p>
+    </footer>
+
+    <script src="Network Troubleshooting Simulator.js"></script>
+</body>
+</html>
