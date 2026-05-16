@@ -62,6 +62,24 @@ These commands are simulated and were added for learning and demonstration purpo
 * Tailwind CSS
 * Font Awesome
 
+## Screenshots
+
+### Home Dashboard
+![Home](screenshots/1-home.png)
+
+### New Incident Loaded
+![Incident Loaded](screenshots/2-new-incident-loaded.png)
+
+### Diagnostic Running
+![Diagnostic Running](screenshots/3-diagnostic-running.png)
+
+### Incident Escalated
+![Escalated](screenshots/4-incident-escalated.png)
+
+### Resolved Incident
+![Resolved](screenshots/5-resolved-incident.png)
+
+
 ## How to Run
 
 1. Download or clone the repository.
