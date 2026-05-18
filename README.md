@@ -1,4 +1,16 @@
-# Network Troubleshooting Simulator
+Network Troubleshooting Simulator
+
+A practical IT Support simulation project focused on troubleshooting workflows, incident handling, and diagnostic processes commonly found in Service Desk and Technical Support environments.
+
+This project was created to simulate a real-world support dashboard where incidents can be created, diagnosed, escalated, and resolved through an interactive interface.
+
+Live Demo
+
+Live Demo
+
+GitHub Repository
+
+GitHub Repository
 
 I created this project to practice troubleshooting scenarios that are common in help desk and technical support environments.
 
@@ -12,105 +24,77 @@ Rather than building another generic CRUD, I created a realistic Network Trouble
 
 This project allows me to practice real-world technical support skills (incident analysis, diagnostics, and escalation) while also improving my front-end development abilities by building a functional and visually appealing tool.
 
-## Project Overview
+Features
+Incident creation system
+Automatic diagnostic simulation
+Incident escalation workflow
+Incident resolution flow
+Real-time status updates
+Interactive troubleshooting dashboard
+Activity and troubleshooting logs
+Responsive interface
+Simulated IT Support environment
+Technologies Used
+HTML5
+CSS3
+JavaScript
+Project Purpose
 
-This project simulates common support incidents using a browser-based interface.
+The main goal of this project is to demonstrate practical troubleshooting logic and support workflows commonly used in:
 
-The main idea was to create something closer to a real support workflow instead of building another generic CRUD or to-do application.
+IT Support
+Service Desk
+Help Desk
+Technical Support
+N1/N2 Support environments
 
-The simulator includes a terminal-style interface, automatic diagnostics, simulated command outputs, incident tracking, escalation handling, and a small dashboard.
+This simulator was designed to strengthen troubleshooting reasoning, workflow organization, and front-end development skills through a practical support-focused project.
 
-## Features
+Simulated Troubleshooting Workflow
 
-* Simulated network incidents
-* Automatic diagnostic workflow
-* Terminal-style command interface
-* Quick command execution
-* Ticket ID generation
-* Severity classification
-* Incident status tracking
-* Resolution and escalation actions
-* Incident history log
-* Dashboard with incident counters
+The simulator follows a support process inspired by real-world IT environments:
 
-## Current Incident Scenarios
+Create a new incident
+Run automatic diagnostics
+Analyze the issue
+Escalate incident if necessary
+Resolve the incident
+Register activity logs
+Common Simulated Issues
+Network instability
+Connectivity problems
+Packet loss
+DNS failures
+Gateway communication issues
+Slow network response
+Service interruptions
+Screenshots
+1. Home Dashboard
 
-The simulator currently includes:
+2. New Incident
 
-* IP address conflict
-* DNS failure
-* Slow internet / high latency
-* Gateway unreachable
-* Printer offline
+3. Diagnostic Running
 
-Each scenario contains simulated command outputs and a recommended troubleshooting solution.
+4. Incident Escalated
 
-## Supported Commands
+5. Resolved Incident
 
-The terminal supports simulated versions of common troubleshooting commands:
+Future Improvements
+Dark/Light theme switch
+Ticket priority system
+Authentication simulation
+Advanced network diagnostics
+Multi-user support simulation
+Export incident reports
+Dashboard analytics
+Simulated command-line troubleshooting tools
+Author
 
-* `ipconfig`
-* `ping`
-* `tracert`
-* `nslookup`
-* `ipconfig /flushdns`
-* `netstat`
-* `arp`
-* `route print`
+Christian F.
+IT Support | Technical Support | Service Desk | AI Quality
 
-These commands are simulated and were added for learning and demonstration purposes.
+LinkedIn:
+LinkedIn Profile
 
-## Technologies Used
-
-* HTML5
-* CSS3
-* JavaScript
-* Tailwind CSS
-* Font Awesome
-
-## Screenshots
-
-### Home Dashboard
-
-
-
-## How to Run
-
-1. Download or clone the repository.
-2. Open the HTML file in your browser.
-3. Click on **New Incident**.
-4. Use the terminal or quick command buttons.
-5. Run the automatic diagnostic.
-6. Resolve or escalate the incident.
-
-## Project Structure
-
-```text
-Network-Troubleshooting-Simulator/
-│
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
-
-## Future Improvements
-
-* Save incident history using localStorage
-* Add more troubleshooting scenarios
-* Add SLA status tracking
-
-
-## What I Learned
-
-- Real incident handling workflow (basic ITIL)
-- How to simulate diagnostics with JavaScript
-- Using localStorage for data persistence
-- Designing "work tool" interfaces (terminal style)
-
-
-## About
-
-This project was developed by Christian Silva as a technical support and front-end practice project.
-
-The main focus of the project is troubleshooting logic, incident handling, and support workflow simulation.
+GitHub:
+GitHub Profile
