@@ -6,11 +6,11 @@ This project was created to simulate a real-world support dashboard where incide
 
 Live Demo
 
-Live Demo
+[Live Demo](https://silvasupportsolutions.github.io/Network-Troubleshooting-Simulator/)
 
 GitHub Repository
 
-GitHub Repository
+[GitHub Repository](https://github.com/SilvaSupportSolutions/Network-Troubleshooting-Simulator)
 
 I created this project to practice troubleshooting scenarios that are common in help desk and technical support environments.
 
@@ -94,7 +94,7 @@ Christian F.
 IT Support | Technical Support | Service Desk | AI Quality
 
 LinkedIn:
-LinkedIn Profile
+[LinkedIn Profile](https://www.linkedin.com/in/christianftech/)  
 
 GitHub:
-GitHub Profile
+[GitHub Profile](https://github.com/SilvaSupportSolutions)
