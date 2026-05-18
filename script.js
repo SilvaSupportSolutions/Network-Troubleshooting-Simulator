@@ -1,5 +1,7 @@
+// =============================================
 // Network Troubleshooting Simulator
 // Christian Silva - 2026
+// =============================================
 
 let currentIssue = null;
 let currentTicketId = null;
@@ -8,23 +10,30 @@ let resolvedCount = 0;
 let escalatedCount = 0;
 let totalScore = 0;
 
-// ==================== DADOS DOS INCIDENTES ====================
+// ==================== INCIDENTES ====================
 const issues = [
     {
         id: 1,
         title: "Usuário sem conexão à internet",
         description: "Colaborador relata que não consegue acessar nenhum site. Outros usuários na mesma rede estão normais.",
         severity: "High",
-        commands: ["ipconfig", "ping 8.8.8.8", "ping google.com"]
+        solution: "Verificar cabo de rede / Wi-Fi / DHCP. Recomendado: ipconfig /release e ipconfig /renew."
     },
     {
         id: 2,
-        title: "Rede lenta / alto latency",
-        description: "Velocidade da internet está muito lenta. Testes mostram alto ping.",
+        title: "Rede muito lenta / alto latency",
+        description: "Usuários reclamam que a internet está extremamente lenta.",
         severity: "Medium",
-        commands: ["ping 8.8.8.8", "tracert google.com"]
+        solution: "Verificar utilização de banda, possível congestionamento ou problema no roteador."
     },
-    // Para adicionar novos incidentes aqui...
+    {
+        id: 3,
+        title: "Não consegue acessar impressora",
+        description: "Usuário não consegue imprimir. Outros serviços funcionam.",
+        severity: "Low",
+        solution: "Verificar se a impressora está ligada, mesma rede e drivers atualizados."
+    }
+    // Caso queira adicione mais incidentes aqui se quiser
 ];
 
 // ==================== LOCALSTORAGE ====================
@@ -53,7 +62,7 @@ function loadFromLocalStorage() {
     updateDashboard();
 }
 
-// ==================== FUNÇÕES BÁSICAS ====================
+// ==================== FUNÇÕES BÁSICAS PROJETO ====================
 function generateTicketId() {
     const num = Math.floor(1000 + Math.random() * 9000);
     return `INC-2026-${num}`;
@@ -81,15 +90,21 @@ function clearTerminal() {
     if (output) output.innerHTML = "";
 }
 
-// ==================== NOVO INCIDENTE ====================
-function loadNewIssue() {
-    if (issues.length === 0) return;
+function addToHistory(action) {
+    const historyList = document.getElementById('history-list');
+    if (!historyList) return;
+    
+    const item = document.createElement("li");
+    item.className = "text-sm py-1 border-l-2 border-yellow-500 pl-3";
+    item.textContent = `${new Date().toLocaleTimeString('pt-BR')} - ${currentTicketId} → ${action}`;
+    historyList.appendChild(item);
+}
 
+// ==================== ADICIONA NOVO INCIDENTE ====================
+function loadNewIssue() {
     currentIssue = issues[Math.floor(Math.random() * issues.length)];
     currentTicketId = generateTicketId();
-    currentStatus = "Open";
 
-    // Aqui preenche os dados na tela
     document.getElementById("ticket-id").textContent = currentTicketId;
     document.getElementById("problema-titulo").textContent = currentIssue.title;
     document.getElementById("severity").textContent = currentIssue.severity;
@@ -98,20 +113,83 @@ function loadNewIssue() {
     clearTerminal();
     addLog("=== Novo incidente carregado ===", "text-yellow-300");
     addLog(`Ticket: ${currentTicketId}`, "text-yellow-300");
-    addLog("Descrição: " + currentIssue.title, "text-slate-300");
 
-    // Fecha painel de solução se estiver aberto
-    const solutionPanel = document.getElementById("solucao-panel");
-    if (solutionPanel) solutionPanel.classList.add("hidden");
+    // Esconde o painel de solução
+    document.getElementById("solucao-panel").classList.add("hidden");
 }
 
-// ==================== INICIALIZAÇÃO ====================
+// ==================== IRÁ EFETUAR O DIAGNÓSTICO ====================
+function runDiagnostic() {
+    if (!currentIssue) {
+        alert("Carregue um incidente primeiro!");
+        return;
+    }
+
+    clearTerminal();
+    addLog("Executando diagnóstico automático...", "text-yellow-300");
+    
+    setTimeout(() => {
+        addLog("Verificando conexão...", "text-blue-400");
+    }, 600);
+
+    setTimeout(() => {
+        addLog("Analisando configurações de IP...", "text-blue-400");
+    }, 1400);
+
+    setTimeout(() => {
+        addLog("Diagnóstico concluído!", "text-emerald-400");
+        showSolution();
+    }, 2200);
+}
+
+function showSolution() {
+    const panel = document.getElementById("solucao-panel");
+    document.getElementById("solution-title").textContent = currentIssue.title;
+    document.getElementById("solution-text").textContent = currentIssue.solution || "Solução recomendada.";
+    panel.classList.remove("hidden");
+}
+
+// ==================== AQUI DEVE RESOLVER / ESCALONAR ====================
+function markAsResolved() {
+    if (!currentIssue) return;
+
+    resolvedCount++;
+    totalScore += currentIssue.severity === "High" ? 25 : currentIssue.severity === "Critical" ? 30 : 15;
+    
+    updateDashboard();
+    addToHistory("Resolved");
+    saveToLocalStorage();
+
+    addLog(`✅ ${currentTicketId} resolvido com sucesso!`, "text-emerald-400");
+    alert(`Incidente ${currentTicketId} marcado como Resolvido!`);
+    
+    document.getElementById("solucao-panel").classList.add("hidden");
+    setTimeout(loadNewIssue, 1500);
+}
+
+function escalateIncident() {
+    if (!currentIssue) return;
+
+    escalatedCount++;
+    totalScore += 8;
+    
+    updateDashboard();
+    addToHistory("Escalated");
+    saveToLocalStorage();
+
+    addLog(`↑ ${currentTicketId} escalonado para N2`, "text-orange-400");
+    alert(`Incidente ${currentTicketId} escalonado!`);
+    
+    document.getElementById("solucao-panel").classList.add("hidden");
+    setTimeout(loadNewIssue, 1500);
+}
+
+// ==================== INICIALIZAÇÃO DO SISTEMA ====================
 document.addEventListener("DOMContentLoaded", () => {
     loadFromLocalStorage();
     updateDashboard();
     
-    // Irá carregar o primeiro incidente automaticamente
     setTimeout(() => {
         loadNewIssue();
-    }, 600);
+    }, 800);
 });
