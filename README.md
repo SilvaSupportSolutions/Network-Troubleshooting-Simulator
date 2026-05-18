@@ -1,100 +1,123 @@
-Network Troubleshooting Simulator
+# 🌐 Network Troubleshooting Simulator
 
-A practical IT Support simulation project focused on troubleshooting workflows, incident handling, and diagnostic processes commonly found in Service Desk and Technical Support environments.
+## Practical IT Support Workflow Simulation
 
-This project was created to simulate a real-world support dashboard where incidents can be created, diagnosed, escalated, and resolved through an interactive interface.
+A front-end project focused on network troubleshooting, incident handling, diagnostic steps, escalation, and resolution workflows commonly used in IT Support, Service Desk, Help Desk, and Technical Support environments.
 
-Live Demo
+This project simulates a support dashboard where incidents can be created, analyzed, escalated, and resolved through an interactive interface.
 
-[Live Demo](https://silvasupportsolutions.github.io/Network-Troubleshooting-Simulator/)
+---
 
-GitHub Repository
+## 🚀 Live Demo
 
-[GitHub Repository](https://github.com/SilvaSupportSolutions/Network-Troubleshooting-Simulator)
+[Access the Live Demo](https://silvasupportsolutions.github.io/Network-Troubleshooting-Simulator/)
 
-I created this project to practice troubleshooting scenarios that are common in help desk and technical support environments.
+## 📂 GitHub Repository
 
-The simulator focuses on simple N1/N2 support situations such as DNS failures, IP conflicts, high latency, unreachable gateways, and printer connectivity issues.
+[View Repository](https://github.com/SilvaSupportSolutions/Network-Troubleshooting-Simulator)
 
-I built this project while studying Systems Analysis and Development and learning more about troubleshooting workflows, incident handling, and front-end development.
+---
 
-Why This Project?
+# 🎯 Project Purpose
 
-Rather than building another generic CRUD, I created a realistic Network Troubleshooting Simulator.
+The main goal of this project is to demonstrate practical troubleshooting logic, technical support reasoning, and workflow organization.
 
-This project allows me to practice real-world technical support skills (incident analysis, diagnostics, and escalation) while also improving my front-end development abilities by building a functional and visually appealing tool.
+It was designed to show how a support analyst can structure an incident from the first report to the final resolution.
 
-Features
-Incident creation system
-Automatic diagnostic simulation
-Incident escalation workflow
-Incident resolution flow
-Real-time status updates
-Interactive troubleshooting dashboard
-Activity and troubleshooting logs
-Responsive interface
-Simulated IT Support environment
-Technologies Used
-HTML5
-CSS3
-JavaScript
-Project Purpose
+---
 
-The main goal of this project is to demonstrate practical troubleshooting logic and support workflows commonly used in:
+# ⚙️ Features
 
-IT Support
-Service Desk
-Help Desk
-Technical Support
-N1/N2 Support environments
+- Create a new network incident
+- Run automatic diagnostics
+- Simulate troubleshooting status updates
+- Escalate incidents when needed
+- Resolve incidents through a support workflow
+- Display activity and troubleshooting logs
+- Responsive dashboard interface
+- Practical IT Support simulation
 
-This simulator was designed to strengthen troubleshooting reasoning, workflow organization, and front-end development skills through a practical support-focused project.
+---
 
-Simulated Troubleshooting Workflow
+# 🧠 Simulated Support Workflow
 
-The simulator follows a support process inspired by real-world IT environments:
+1. New incident is created
+2. Diagnostic process is started
+3. System analyzes the issue
+4. Incident can be escalated
+5. Resolution is applied
+6. Final status is updated
 
-Create a new incident
-Run automatic diagnostics
-Analyze the issue
-Escalate incident if necessary
-Resolve the incident
-Register activity logs
-Common Simulated Issues
-Network instability
-Connectivity problems
-Packet loss
-DNS failures
-Gateway communication issues
-Slow network response
-Service interruptions
-Screenshots
-1. Home Dashboard
+---
 
-2. New Incident
+# 🛠️ Technologies Used
 
-3. Diagnostic Running
+- HTML5
+- CSS3
+- JavaScript
 
-4. Incident Escalated
+---
 
-5. Resolved Incident
+# 🖼️ Project Screenshots
 
-Future Improvements
-Dark/Light theme switch
-Ticket priority system
-Authentication simulation
-Advanced network diagnostics
-Multi-user support simulation
-Export incident reports
-Dashboard analytics
-Simulated command-line troubleshooting tools
-Author
+## 1. Home Dashboard
 
-Christian F.
+![Home Dashboard](screenshots/1-home.png)
+
+---
+
+## 2. New Incident
+
+![New Incident](screenshots/2-new%20incident.png)
+
+---
+
+## 3. Diagnostic Running
+
+![Diagnostic Running](screenshots/3-diagnostic%20running.png)
+
+---
+
+## 4. Incident Escalated
+
+![Incident Escalated](screenshots/4-incident%20escalated.png)
+
+---
+
+## 5. Resolved Incident
+
+![Resolved Incident](screenshots/5-resolved%20incident.png)
+
+---
+
+# 📌 Common Simulated Issues
+
+- Network instability
+- DNS failure
+- Gateway communication issue
+- Packet loss
+- Slow network response
+- Service interruption
+- Incident escalation scenario
+
+---
+
+# 🔧 Future Improvements
+
+- Add ticket priority levels
+- Add incident categories
+- Add simulated command-line diagnostics
+- Add exportable incident reports
+- Add dashboard statistics
+- Add dark/light mode
+- Add user authentication simulation
+
+---
+
+# 👤 Author
+
+**Christian F.**  
 IT Support | Technical Support | Service Desk | AI Quality
 
-LinkedIn:
 [LinkedIn Profile](https://www.linkedin.com/in/christianftech/)  
-
-GitHub:
 [GitHub Profile](https://github.com/SilvaSupportSolutions)
