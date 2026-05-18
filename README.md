@@ -113,12 +113,12 @@ Network-Troubleshooting-Simulator/
 * Add SLA status tracking
 
 
-What I Learned
+## What I Learned
 
-Real incident handling workflow (basic ITIL)
-How to simulate network diagnostics using JavaScript
-Using localStorage for data persistence
-Designing practical "work tool" interfaces (terminal-style)
+- Real incident handling workflow (basic ITIL)
+- How to simulate diagnostics with JavaScript
+- Using localStorage for data persistence
+- Designing "work tool" interfaces (terminal style)
 
 
 ## About
