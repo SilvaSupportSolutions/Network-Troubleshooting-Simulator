@@ -71,19 +71,7 @@ These commands are simulated and were added for learning and demonstration purpo
 ## Screenshots
 
 ### Home Dashboard
-![Home Dashboard](screenshots/1-home.png)
 
-### New Incident Loaded
-![New Incident Loaded](screenshots/2-new%20incident%20loaded.png)
-
-### Diagnostic Running
-![Diagnostic Running](screenshots/3-diagnostic%20running.png)
-
-### Incident Escalated
-![Incident Escalated](screenshots/4-incident%20escalated.png)
-
-### Resolved Incident
-![Resolved Incident](screenshots/5-resolved%20incident.png)
 
 
 ## How to Run
