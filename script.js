@@ -10,30 +10,30 @@ let resolvedCount = 0;
 let escalatedCount = 0;
 let totalScore = 0;
 
-// ==================== INCIDENTES ====================
+// ==================== INCIDENTS ====================
 const issues = [
     {
         id: 1,
-        title: "Usuário sem conexão à internet",
-        description: "Colaborador relata que não consegue acessar nenhum site. Outros usuários na mesma rede estão normais.",
+        title: "User with no internet connection",
+        description: "Employee reports they cannot access any website. Other users on the same network are working normally.",
         severity: "High",
-        solution: "Verificar cabo de rede / Wi-Fi / DHCP. Recomendado: ipconfig /release e ipconfig /renew."
+        solution: "Check network cable / Wi-Fi / DHCP. Recommended: ipconfig /release and ipconfig /renew."
     },
     {
         id: 2,
-        title: "Rede muito lenta / alto latency",
-        description: "Usuários reclamam que a internet está extremamente lenta.",
+        title: "Very slow network / high latency",
+        description: "Users are complaining that the internet is extremely slow.",
         severity: "Medium",
-        solution: "Verificar utilização de banda, possível congestionamento ou problema no roteador."
+        solution: "Check bandwidth usage, possible congestion or router issue."
     },
     {
         id: 3,
-        title: "Não consegue acessar impressora",
-        description: "Usuário não consegue imprimir. Outros serviços funcionam.",
+        title: "Cannot access printer",
+        description: "User cannot print. Other services are working normally.",
         severity: "Low",
-        solution: "Verificar se a impressora está ligada, mesma rede e drivers atualizados."
+        solution: "Check if the printer is turned on, on the same network and drivers are up to date."
     }
-    // Caso queira adicione mais incidentes aqui se quiser
+    // Add more incidents here if you want
 ];
 
 // ==================== LOCALSTORAGE ====================
@@ -62,7 +62,7 @@ function loadFromLocalStorage() {
     updateDashboard();
 }
 
-// ==================== FUNÇÕES BÁSICAS PROJETO ====================
+// ==================== BASIC FUNCTIONS ====================
 function generateTicketId() {
     const num = Math.floor(1000 + Math.random() * 9000);
     return `INC-2026-${num}`;
@@ -93,14 +93,14 @@ function clearTerminal() {
 function addToHistory(action) {
     const historyList = document.getElementById('history-list');
     if (!historyList) return;
-    
+   
     const item = document.createElement("li");
     item.className = "text-sm py-1 border-l-2 border-yellow-500 pl-3";
-    item.textContent = `${new Date().toLocaleTimeString('pt-BR')} - ${currentTicketId} → ${action}`;
+    item.textContent = `${new Date().toLocaleTimeString('en-US')} - ${currentTicketId} → ${action}`;
     historyList.appendChild(item);
 }
 
-// ==================== ADICIONA NOVO INCIDENTE ====================
+// ==================== NEW INCIDENT ====================
 function loadNewIssue() {
     currentIssue = issues[Math.floor(Math.random() * issues.length)];
     currentTicketId = generateTicketId();
@@ -111,33 +111,33 @@ function loadNewIssue() {
     document.getElementById("descricao-problema").textContent = currentIssue.description;
 
     clearTerminal();
-    addLog("=== Novo incidente carregado ===", "text-yellow-300");
+    addLog("=== New incident loaded ===", "text-yellow-300");
     addLog(`Ticket: ${currentTicketId}`, "text-yellow-300");
 
-    // Esconde o painel de solução
+    // Hide solution panel
     document.getElementById("solucao-panel").classList.add("hidden");
 }
 
-// ==================== IRÁ EFETUAR O DIAGNÓSTICO ====================
+// ==================== DIAGNOSTIC ====================
 function runDiagnostic() {
     if (!currentIssue) {
-        alert("Carregue um incidente primeiro!");
+        alert("Please load an incident first!");
         return;
     }
 
     clearTerminal();
-    addLog("Executando diagnóstico automático...", "text-yellow-300");
-    
+    addLog("Running automatic diagnostic...", "text-yellow-300");
+   
     setTimeout(() => {
-        addLog("Verificando conexão...", "text-blue-400");
+        addLog("Checking connection...", "text-blue-400");
     }, 600);
 
     setTimeout(() => {
-        addLog("Analisando configurações de IP...", "text-blue-400");
+        addLog("Analyzing IP configuration...", "text-blue-400");
     }, 1400);
 
     setTimeout(() => {
-        addLog("Diagnóstico concluído!", "text-emerald-400");
+        addLog("Diagnostic completed!", "text-emerald-400");
         showSolution();
     }, 2200);
 }
@@ -145,24 +145,24 @@ function runDiagnostic() {
 function showSolution() {
     const panel = document.getElementById("solucao-panel");
     document.getElementById("solution-title").textContent = currentIssue.title;
-    document.getElementById("solution-text").textContent = currentIssue.solution || "Solução recomendada.";
+    document.getElementById("solution-text").textContent = currentIssue.solution || "Recommended solution.";
     panel.classList.remove("hidden");
 }
 
-// ==================== AQUI DEVE RESOLVER / ESCALONAR ====================
+// ==================== RESOLVE / ESCALATE ====================
 function markAsResolved() {
     if (!currentIssue) return;
 
     resolvedCount++;
     totalScore += currentIssue.severity === "High" ? 25 : currentIssue.severity === "Critical" ? 30 : 15;
-    
+   
     updateDashboard();
     addToHistory("Resolved");
     saveToLocalStorage();
 
-    addLog(`✅ ${currentTicketId} resolvido com sucesso!`, "text-emerald-400");
-    alert(`Incidente ${currentTicketId} marcado como Resolvido!`);
-    
+    addLog(`✅ ${currentTicketId} resolved successfully!`, "text-emerald-400");
+    alert(`Incident ${currentTicketId} marked as Resolved!`);
+   
     document.getElementById("solucao-panel").classList.add("hidden");
     setTimeout(loadNewIssue, 1500);
 }
@@ -172,23 +172,23 @@ function escalateIncident() {
 
     escalatedCount++;
     totalScore += 8;
-    
+   
     updateDashboard();
     addToHistory("Escalated");
     saveToLocalStorage();
 
-    addLog(`↑ ${currentTicketId} escalonado para N2`, "text-orange-400");
-    alert(`Incidente ${currentTicketId} escalonado!`);
-    
+    addLog(`↑ ${currentTicketId} escalated to L2`, "text-orange-400");
+    alert(`Incident ${currentTicketId} has been escalated!`);
+   
     document.getElementById("solucao-panel").classList.add("hidden");
     setTimeout(loadNewIssue, 1500);
 }
 
-// ==================== INICIALIZAÇÃO DO SISTEMA ====================
+// ==================== INITIALIZATION ====================
 document.addEventListener("DOMContentLoaded", () => {
     loadFromLocalStorage();
     updateDashboard();
-    
+   
     setTimeout(() => {
         loadNewIssue();
     }, 800);
