@@ -6,6 +6,12 @@ The simulator focuses on simple N1/N2 support situations such as DNS failures, I
 
 I built this project while studying Systems Analysis and Development and learning more about troubleshooting workflows, incident handling, and front-end development.
 
+Why This Project?
+
+Rather than building another generic CRUD, I created a realistic Network Troubleshooting Simulator.
+
+This project allows me to practice real-world technical support skills (incident analysis, diagnostics, and escalation) while also improving my front-end development abilities by building a functional and visually appealing tool.
+
 ## Project Overview
 
 This project simulates common support incidents using a browser-based interface.
@@ -105,6 +111,15 @@ Network-Troubleshooting-Simulator/
 * Save incident history using localStorage
 * Add more troubleshooting scenarios
 * Add SLA status tracking
+
+
+What I Learned
+
+Real incident handling workflow (basic ITIL)
+How to simulate network diagnostics using JavaScript
+Using localStorage for data persistence
+Designing practical "work tool" interfaces (terminal-style)
+
 
 ## About
 
