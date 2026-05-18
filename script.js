@@ -10,80 +10,57 @@ let resolvedCount = 0;
 let escalatedCount = 0;
 let totalScore = 0;
 
-let historyData = []; // Array para armazenar histórico de forma estruturada
+let historyData = [];
 
 // ==================== INCIDENTS ====================
-const issues = [
-    {
-        id: 1,
-        title: "User with no internet connection",
-        description: "Employee reports they cannot access any website. Other users on the same network are working normally.",
-        severity: "High",
-        solution: "Check network cable / Wi-Fi / DHCP. Recommended: ipconfig /release and ipconfig /renew."
-    },
-    {
-        id: 2,
-        title: "Very slow network / high latency",
-        description: "Users are complaining that the internet is extremely slow.",
-        severity: "Medium",
-        solution: "Check bandwidth usage, possible congestion or router issue."
-    },
-    {
-        id: 3,
-        title: "Cannot access printer",
-        description: "User cannot print. Other services are working normally.",
-        severity: "Low",
-        solution: "Check if the printer is turned on, on the same network and drivers are up to date."
-    }
-];
+const issues = [ /* seus incidents aqui */ ];
 
 // ==================== LOCALSTORAGE ====================
 function saveToLocalStorage() {
-    const data = {
-        resolvedCount,
-        escalatedCount,
-        totalScore,
-        historyData: historyData
-    };
-    localStorage.setItem('ntt_simulator_data', JSON.stringify(data));
+    localStorage.setItem('ntt_simulator_data', JSON.stringify({
+        resolvedCount, escalatedCount, totalScore, historyData
+    }));
 }
 
 function loadFromLocalStorage() {
     const saved = localStorage.getItem('ntt_simulator_data');
-    if (!saved) return;
-
-    const data = JSON.parse(saved);
-    resolvedCount = data.resolvedCount || 0;
-    escalatedCount = data.escalatedCount || 0;
-    totalScore = data.totalScore || 0;
-    historyData = data.historyData || [];
-
-    renderHistory();
+    if (saved) {
+        const data = JSON.parse(saved);
+        resolvedCount = data.resolvedCount || 0;
+        escalatedCount = data.escalatedCount || 0;
+        totalScore = data.totalScore || 0;
+        historyData = data.historyData || [];
+    }
     updateDashboard();
+    renderHistory();
 }
 
+// ==================== RENDER HISTORY ====================
 function renderHistory() {
     const historyList = document.getElementById('history-list');
-    if (!historyList) return;
-    
+    if (!historyList) {
+        console.warn("Element #history-list not found!");
+        return;
+    }
+
     historyList.innerHTML = "";
 
     if (historyData.length === 0) {
-        historyList.innerHTML = `<li class="text-slate-500 text-center py-4">No incidents resolved yet.</li>`;
+        historyList.innerHTML = `<li class="text-slate-500 text-center py-8">No incidents in history yet.<br>Resolve or escalate some incidents.</li>`;
         return;
     }
 
     historyData.forEach(item => {
-        const li = document.createElement("li");
-        li.className = `flex justify-between items-center bg-slate-800 p-4 rounded-2xl border-l-4 ${item.action === "Resolved" ? "border-emerald-500" : "border-orange-500"}`;
+        const li = document.createElement('li');
+        li.className = `flex justify-between items-center p-4 rounded-2xl bg-slate-800 border-l-4 ${item.action === "Resolved" ? "border-emerald-500" : "border-orange-500"}`;
         li.innerHTML = `
             <div>
                 <span class="font-mono text-yellow-300">${item.ticket}</span><br>
                 <span class="text-slate-300">${item.title}</span>
             </div>
-            <div class="text-right">
-                <span class="text-xs text-slate-500">${item.date}</span><br>
-                <span class="${item.action === "Resolved" ? "text-emerald-400" : "text-orange-400"} font-medium">
+            <div class="text-right text-sm">
+                <div class="text-slate-500">${item.date}</div>
+                <span class="font-medium ${item.action === "Resolved" ? "text-emerald-400" : "text-orange-400"}">
                     ${item.action}
                 </span>
             </div>
@@ -92,132 +69,51 @@ function renderHistory() {
     });
 }
 
-// ==================== BASIC FUNCTIONS ====================
-function generateTicketId() {
-    const num = Math.floor(1000 + Math.random() * 9000);
-    return `INC-2026-${num}`;
-}
-
+// ==================== OUTRAS FUNÇÕES (resumido) ====================
 function updateDashboard() {
     document.getElementById("resolved-count").textContent = resolvedCount;
     document.getElementById("escalated-count").textContent = escalatedCount;
-    const scoreEl = document.getElementById("score-count");
-    if (scoreEl) scoreEl.textContent = totalScore;
+    document.getElementById("score-count").textContent = totalScore;
 }
 
-function addLog(text, color = "text-emerald-300") {
-    const output = document.getElementById("terminal-output");
-    if (!output) return;
-    const line = document.createElement("div");
-    line.className = `log-line ${color}`;
-    line.textContent = text;
-    output.appendChild(line);
-    output.scrollTop = output.scrollHeight;
-}
+// ... (mantenha as funções loadNewIssue, runDiagnostic, showSolution, markAsResolved, escalateIncident)
 
-function clearTerminal() {
-    const output = document.getElementById("terminal-output");
-    if (output) output.innerHTML = "";
-}
-
-// ==================== NEW INCIDENT ====================
-function loadNewIssue() {
-    currentIssue = issues[Math.floor(Math.random() * issues.length)];
-    currentTicketId = generateTicketId();
-
-    document.getElementById("ticket-id").textContent = currentTicketId;
-    document.getElementById("problema-titulo").textContent = currentIssue.title;
-    document.getElementById("severity").textContent = currentIssue.severity;
-    document.getElementById("descricao-problema").textContent = currentIssue.description;
-
-    clearTerminal();
-    addLog("=== New incident loaded ===", "text-yellow-300");
-    addLog(`Ticket: ${currentTicketId}`, "text-yellow-300");
-
-    document.getElementById("solucao-panel").classList.add("hidden");
-}
-
-// ==================== DIAGNOSTIC ====================
-function runDiagnostic() {
-    if (!currentIssue) {
-        alert("Please load an incident first!");
-        return;
-    }
-
-    clearTerminal();
-    addLog("Running automatic diagnostic...", "text-yellow-300");
-   
-    setTimeout(() => addLog("Checking connection...", "text-blue-400"), 600);
-    setTimeout(() => addLog("Analyzing IP configuration...", "text-blue-400"), 1400);
-    setTimeout(() => {
-        addLog("Diagnostic completed!", "text-emerald-400");
-        showSolution();
-    }, 2200);
-}
-
-function showSolution() {
-    const panel = document.getElementById("solucao-panel");
-    document.getElementById("solution-title").textContent = currentIssue.title;
-    document.getElementById("solution-text").textContent = currentIssue.solution || "Recommended solution.";
-    panel.classList.remove("hidden");
-}
-
-// ==================== RESOLVE / ESCALATE ====================
 function markAsResolved() {
     if (!currentIssue) return;
+    // ... lógica de resolved
 
-    resolvedCount++;
-    totalScore += currentIssue.severity === "High" ? 25 : currentIssue.severity === "Critical" ? 30 : 15;
-
-    // Salva no histórico
     historyData.unshift({
         ticket: currentTicketId,
         title: currentIssue.title,
         action: "Resolved",
-        date: new Date().toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
+        date: new Date().toLocaleString('en-US')
     });
 
     updateDashboard();
     renderHistory();
     saveToLocalStorage();
-
-    addLog(`✅ ${currentTicketId} resolved successfully!`, "text-emerald-400");
-    alert(`Incident ${currentTicketId} marked as Resolved!`);
-   
-    document.getElementById("solucao-panel").classList.add("hidden");
-    setTimeout(loadNewIssue, 1200);
+    // ...
 }
 
 function escalateIncident() {
     if (!currentIssue) return;
-
-    escalatedCount++;
-    totalScore += 8;
+    // ... lógica de escalate
 
     historyData.unshift({
         ticket: currentTicketId,
         title: currentIssue.title,
         action: "Escalated",
-        date: new Date().toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
+        date: new Date().toLocaleString('en-US')
     });
 
     updateDashboard();
     renderHistory();
     saveToLocalStorage();
-
-    addLog(`↑ ${currentTicketId} escalated to L2`, "text-orange-400");
-    alert(`Incident ${currentTicketId} has been escalated!`);
-   
-    document.getElementById("solucao-panel").classList.add("hidden");
-    setTimeout(loadNewIssue, 1200);
+    // ...
 }
 
-// ==================== INITIALIZATION ====================
+// Inicialização
 document.addEventListener("DOMContentLoaded", () => {
     loadFromLocalStorage();
-    updateDashboard();
-   
-    setTimeout(() => {
-        loadNewIssue();
-    }, 600);
+    setTimeout(loadNewIssue, 600);
 });
