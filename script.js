@@ -10,6 +10,8 @@ let resolvedCount = 0;
 let escalatedCount = 0;
 let totalScore = 0;
 
+let historyData = []; // Array para armazenar histórico de forma estruturada
+
 // ==================== INCIDENTS ====================
 const issues = [
     {
@@ -41,7 +43,7 @@ function saveToLocalStorage() {
         resolvedCount,
         escalatedCount,
         totalScore,
-        history: document.getElementById('history-list')?.innerHTML || ""
+        historyData: historyData
     };
     localStorage.setItem('ntt_simulator_data', JSON.stringify(data));
 }
@@ -54,11 +56,40 @@ function loadFromLocalStorage() {
     resolvedCount = data.resolvedCount || 0;
     escalatedCount = data.escalatedCount || 0;
     totalScore = data.totalScore || 0;
+    historyData = data.historyData || [];
 
-    const historyEl = document.getElementById('history-list');
-    if (historyEl && data.history) historyEl.innerHTML = data.history;
-
+    renderHistory();
     updateDashboard();
+}
+
+function renderHistory() {
+    const historyList = document.getElementById('history-list');
+    if (!historyList) return;
+    
+    historyList.innerHTML = "";
+
+    if (historyData.length === 0) {
+        historyList.innerHTML = `<li class="text-slate-500 text-center py-4">No incidents resolved yet.</li>`;
+        return;
+    }
+
+    historyData.forEach(item => {
+        const li = document.createElement("li");
+        li.className = `flex justify-between items-center bg-slate-800 p-4 rounded-2xl border-l-4 ${item.action === "Resolved" ? "border-emerald-500" : "border-orange-500"}`;
+        li.innerHTML = `
+            <div>
+                <span class="font-mono text-yellow-300">${item.ticket}</span><br>
+                <span class="text-slate-300">${item.title}</span>
+            </div>
+            <div class="text-right">
+                <span class="text-xs text-slate-500">${item.date}</span><br>
+                <span class="${item.action === "Resolved" ? "text-emerald-400" : "text-orange-400"} font-medium">
+                    ${item.action}
+                </span>
+            </div>
+        `;
+        historyList.appendChild(li);
+    });
 }
 
 // ==================== BASIC FUNCTIONS ====================
@@ -116,14 +147,8 @@ function runDiagnostic() {
     clearTerminal();
     addLog("Running automatic diagnostic...", "text-yellow-300");
    
-    setTimeout(() => {
-        addLog("Checking connection...", "text-blue-400");
-    }, 600);
-
-    setTimeout(() => {
-        addLog("Analyzing IP configuration...", "text-blue-400");
-    }, 1400);
-
+    setTimeout(() => addLog("Checking connection...", "text-blue-400"), 600);
+    setTimeout(() => addLog("Analyzing IP configuration...", "text-blue-400"), 1400);
     setTimeout(() => {
         addLog("Diagnostic completed!", "text-emerald-400");
         showSolution();
@@ -143,15 +168,24 @@ function markAsResolved() {
 
     resolvedCount++;
     totalScore += currentIssue.severity === "High" ? 25 : currentIssue.severity === "Critical" ? 30 : 15;
-   
+
+    // Salva no histórico
+    historyData.unshift({
+        ticket: currentTicketId,
+        title: currentIssue.title,
+        action: "Resolved",
+        date: new Date().toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
+    });
+
     updateDashboard();
+    renderHistory();
     saveToLocalStorage();
 
     addLog(`✅ ${currentTicketId} resolved successfully!`, "text-emerald-400");
     alert(`Incident ${currentTicketId} marked as Resolved!`);
    
     document.getElementById("solucao-panel").classList.add("hidden");
-    setTimeout(loadNewIssue, 1500);
+    setTimeout(loadNewIssue, 1200);
 }
 
 function escalateIncident() {
@@ -159,15 +193,23 @@ function escalateIncident() {
 
     escalatedCount++;
     totalScore += 8;
-   
+
+    historyData.unshift({
+        ticket: currentTicketId,
+        title: currentIssue.title,
+        action: "Escalated",
+        date: new Date().toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
+    });
+
     updateDashboard();
+    renderHistory();
     saveToLocalStorage();
 
     addLog(`↑ ${currentTicketId} escalated to L2`, "text-orange-400");
     alert(`Incident ${currentTicketId} has been escalated!`);
    
     document.getElementById("solucao-panel").classList.add("hidden");
-    setTimeout(loadNewIssue, 1500);
+    setTimeout(loadNewIssue, 1200);
 }
 
 // ==================== INITIALIZATION ====================
@@ -177,5 +219,5 @@ document.addEventListener("DOMContentLoaded", () => {
    
     setTimeout(() => {
         loadNewIssue();
-    }, 800);
+    }, 600);
 });
