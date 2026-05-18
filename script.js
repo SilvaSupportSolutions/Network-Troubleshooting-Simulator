@@ -33,7 +33,6 @@ const issues = [
         severity: "Low",
         solution: "Check if the printer is turned on, on the same network and drivers are up to date."
     }
-    // Add more incidents here if you want
 ];
 
 // ==================== LOCALSTORAGE ====================
@@ -90,16 +89,6 @@ function clearTerminal() {
     if (output) output.innerHTML = "";
 }
 
-function addToHistory(action) {
-    const historyList = document.getElementById('history-list');
-    if (!historyList) return;
-   
-    const item = document.createElement("li");
-    item.className = "text-sm py-1 border-l-2 border-yellow-500 pl-3";
-    item.textContent = `${new Date().toLocaleTimeString('en-US')} - ${currentTicketId} → ${action}`;
-    historyList.appendChild(item);
-}
-
 // ==================== NEW INCIDENT ====================
 function loadNewIssue() {
     currentIssue = issues[Math.floor(Math.random() * issues.length)];
@@ -114,7 +103,6 @@ function loadNewIssue() {
     addLog("=== New incident loaded ===", "text-yellow-300");
     addLog(`Ticket: ${currentTicketId}`, "text-yellow-300");
 
-    // Hide solution panel
     document.getElementById("solucao-panel").classList.add("hidden");
 }
 
@@ -157,7 +145,6 @@ function markAsResolved() {
     totalScore += currentIssue.severity === "High" ? 25 : currentIssue.severity === "Critical" ? 30 : 15;
    
     updateDashboard();
-    addToHistory("Resolved");
     saveToLocalStorage();
 
     addLog(`✅ ${currentTicketId} resolved successfully!`, "text-emerald-400");
@@ -174,7 +161,6 @@ function escalateIncident() {
     totalScore += 8;
    
     updateDashboard();
-    addToHistory("Escalated");
     saveToLocalStorage();
 
     addLog(`↑ ${currentTicketId} escalated to L2`, "text-orange-400");
