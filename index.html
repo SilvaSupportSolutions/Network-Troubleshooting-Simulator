@@ -8,20 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-950 text-slate-200">
+<body class="bg-slate-950 text-slate-200 min-h-screen">
     <div class="max-w-7xl mx-auto p-6">
 
-        <!-- Header -->
         <header class="flex justify-between items-center mb-8 border-b border-yellow-500 pb-6">
             <div>
                 <h1 class="text-4xl font-bold text-yellow-400 flex items-center gap-3">
                     <i class="fas fa-network-wired"></i>
                     Network Troubleshooting Simulator
                 </h1>
-                <p class="text-slate-400">Realistic practice tool for N1/N2 Technical Support</p>
+                <p class="text-slate-400">Realistic N1/N2 Technical Support Practice</p>
             </div>
             <button onclick="loadNewIssue()" 
-                    class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-2xl font-medium flex items-center gap-2">
+                    class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-2xl font-medium flex items-center gap-2 transition">
                 <i class="fas fa-redo"></i> New Incident
             </button>
         </header>
@@ -30,49 +29,46 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 text-center">
                 <p class="text-emerald-400 text-sm">Resolved Incidents</p>
-                <p id="resolved-count" class="text-5xl font-bold text-emerald-400">0</p>
+                <p id="resolved-count" class="text-5xl font-bold">0</p>
             </div>
             <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 text-center">
                 <p class="text-orange-400 text-sm">Escalated Incidents</p>
-                <p id="escalated-count" class="text-5xl font-bold text-orange-400">0</p>
+                <p id="escalated-count" class="text-5xl font-bold">0</p>
             </div>
             <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 text-center">
                 <p class="text-yellow-400 text-sm">Total Score</p>
-                <p id="score-count" class="text-5xl font-bold text-yellow-400">0</p>
+                <p id="score-count" class="text-5xl font-bold">0</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- Left Column - Incident -->
+            <!-- Incident Info -->
             <div class="lg:col-span-5">
                 <div class="bg-slate-900 border border-slate-700 rounded-3xl p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
-                        <h2 id="problema-titulo" class="text-2xl font-semibold">Waiting for incident...</h2>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4 mb-6 text-sm">
-                        <div class="bg-slate-800 rounded-2xl p-4">
-                            <p class="text-slate-500">Ticket ID</p>
-                            <p id="ticket-id" class="font-mono text-yellow-300">--</p>
+                    <h2 id="problema-titulo" class="text-2xl font-semibold mb-6">Waiting for new incident...</h2>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="bg-slate-800 p-4 rounded-2xl">
+                            <p class="text-xs text-slate-500">Ticket ID</p>
+                            <p id="ticket-id" class="font-mono text-yellow-300 text-lg">--</p>
                         </div>
-                        <div class="bg-slate-800 rounded-2xl p-4">
-                            <p class="text-slate-500">Severity</p>
-                            <p id="severity" class="font-medium">--</p>
+                        <div class="bg-slate-800 p-4 rounded-2xl">
+                            <p class="text-xs text-slate-500">Severity</p>
+                            <p id="severity" class="text-lg font-medium">--</p>
                         </div>
-                        <div class="bg-slate-800 rounded-2xl p-4">
-                            <p class="text-slate-500">Status</p>
-                            <p class="font-medium text-emerald-400">Open</p>
+                        <div class="bg-slate-800 p-4 rounded-2xl">
+                            <p class="text-xs text-slate-500">Status</p>
+                            <p class="text-emerald-400 text-lg font-medium">Open</p>
                         </div>
                     </div>
 
-                    <div id="descricao-problema" class="bg-slate-950 p-5 rounded-2xl min-h-[140px]">
-                        Click "New Incident" to start.
+                    <div id="descricao-problema" class="bg-slate-950 p-5 rounded-2xl min-h-[160px] text-slate-300">
+                        Click "New Incident" to begin training.
                     </div>
 
                     <button onclick="runDiagnostic()" 
-                            class="mt-6 w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-medium flex items-center justify-center gap-3">
+                            class="mt-6 w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-medium text-lg flex items-center justify-center gap-3">
                         <i class="fas fa-stethoscope"></i> Run Automatic Diagnostic
                     </button>
                 </div>
@@ -80,4 +76,32 @@
 
             <!-- Terminal -->
             <div class="lg:col-span-7">
-                <div id="terminal" class="
+                <div class="bg-black border border-slate-700 rounded-3xl overflow-hidden h-[420px] flex flex-col">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-slate-700 font-medium">Terminal</div>
+                    <div id="terminal-output" class="flex-1 p-6 overflow-y-auto font-mono text-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution Panel -->
+        <div id="solucao-panel" class="hidden mt-8 bg-gradient-to-br from-emerald-900 to-slate-900 border border-emerald-500 rounded-3xl p-8">
+            <h3 id="solution-title" class="text-2xl font-bold mb-4"></h3>
+            <p id="solution-text" class="text-slate-300 text-lg leading-relaxed"></p>
+            
+            <div class="mt-8 flex gap-4">
+                <button onclick="markAsResolved()" 
+                        class="flex-1 bg-emerald-600 hover:bg-emerald-500 py-5 rounded-2xl font-medium text-lg">
+                    ✅ Mark as Resolved
+                </button>
+                <button onclick="escalateIncident()" 
+                        class="flex-1 bg-orange-600 hover:bg-orange-500 py-5 rounded-2xl font-medium text-lg">
+                    ↑ Escalate to L2
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
